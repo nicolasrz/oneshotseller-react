@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import Page from '../Page';
-export default class Cart extends Component{
+export default class Cart extends PureComponent{
+
 	render(){
-		return(<Page>Cart</Page>);
+		return(<Page><p>Cart</p></Page>);
 	}
 }

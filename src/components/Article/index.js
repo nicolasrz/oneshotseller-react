@@ -1,12 +1,9 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Card, Image, Button, Icon } from 'semantic-ui-react'
 
-
-
-class CardArticle extends Component{
+class Article extends PureComponent{
 	render(){
 		const {article} = this.props;
-
 		return(
 			<Card>
 			    <Image src={article.image} />
@@ -26,4 +23,4 @@ class CardArticle extends Component{
 	}
 }
 
-export default CardArticle;
+export default Article;
