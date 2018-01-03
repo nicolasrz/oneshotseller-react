@@ -1,0 +1,18 @@
+@font-face {
+    font-family: caviarDreams;
+    src: url("./fonts/caviar_dreams/CaviarDreams.ttf");
+}
+
+.custom-header
+{
+	font-family: caviarDreams !important;
+	padding: 14px 16px;
+	margin-bottom: 0px;
+	text-transform: uppercase !important;
+	font-size: 90% !important;
+} 
+
+.uppercase-header-item
+{
+	text-transform: uppercase !important;
+}

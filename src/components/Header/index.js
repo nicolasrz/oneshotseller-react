@@ -1,21 +1,59 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Link } from 'react-router-dom'
+import { Menu, Input } from 'semantic-ui-react'
+import './style.css';
+class Header extends PureComponent{
 
-class Header extends Component{
+	constructor(props){
+		super(props);
+		this.state = {
+
+		}
+	}
+
+	handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
 	render(){
+
+		const { activeItem } = this.state
 		return(
-			<header className="w3-panel w3-center w3-opacity">
-				<h1 className="w3-xlarge">Seller One Shot</h1>
-				<div className="w3-padding-32">
-					<div className="w3-bar w3-border">
-						<Link to="/" className="w3-bar-item w3-button">Accueil</Link>
-						<Link to="/cart" className="w3-bar-item w3-button">Panier</Link>
-						<Link to="/payment" className="w3-bar-item w3-button">Paiement</Link>
-						<Link to="/contact" className="w3-bar-item w3-button">Contact</Link>
-					</div>
-				</div>
-			</header>
-			)
+			
+			<Menu className='custom-header'>
+				<Menu.Menu position='right'>
+					<Menu.Item
+					name='accueil'
+					active={activeItem === 'accueil'}
+					onClick={this.handleItemClick}
+					className="uppercase-header-item"
+					>
+					Accueil
+					</Menu.Item>
+
+					<Menu.Item
+					name='articles'
+					active={activeItem === 'articles'}
+					onClick={this.handleItemClick}
+					className="uppercase-header-item"
+					>
+					Articles
+					</Menu.Item>
+					<Menu.Item
+					name='upcomingEvents'
+					active={activeItem === 'upcomingEvents'}
+					onClick={this.handleItemClick}
+					className="uppercase-header-item"
+					>
+					Upcoming Events
+					</Menu.Item>
+				</Menu.Menu>
+				<Menu.Menu position='right'>
+					<Menu.Item name='contact' active={activeItem === 'contact'} onClick={this.handleItemClick}
+						className="uppercase-header-item" 
+					/>
+				</Menu.Menu>
+			</Menu>
+		)
+		
 	}
 }
 
