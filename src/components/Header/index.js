@@ -1,61 +1,71 @@
-import React, { PureComponent } from "react";
-import { Link } from 'react-router-dom'
-import { Menu, Input } from 'semantic-ui-react'
+import React, { PureComponent } from 'react';
+import { Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import './style.css';
-class Header extends PureComponent{
-
-	constructor(props){
+class Header extends PureComponent {
+	constructor(props) {
 		super(props);
-		this.state = {
-
-		}
+		this.state = {};
 	}
 
-	handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
-	render(){
-
-		const { activeItem } = this.state
-		return(
-			
-			<Menu className='custom-header'>
-				<Menu.Menu position='right'>
+	render() {
+		const { activeItem } = this.state;
+		return (
+			<Menu className="custom-header">
+				<Menu.Menu position="right">
 					<Menu.Item
-					name='accueil'
-					active={activeItem === 'accueil'}
-					onClick={this.handleItemClick}
-					className="uppercase-header-item"
-					>
-					Accueil
-					</Menu.Item>
+						as={Link}
+						to="/"
+						name="accueil"
+						active={activeItem === 'accueil'}
+						onClick={this.handleItemClick}
+						className="uppercase-header-item"
+					/>
 
 					<Menu.Item
-					name='articles'
-					active={activeItem === 'articles'}
-					onClick={this.handleItemClick}
-					className="uppercase-header-item"
-					>
-					Articles
-					</Menu.Item>
+						name="articles"
+						as={Link}
+						to="/articles"
+						active={activeItem === 'articles'}
+						onClick={this.handleItemClick}
+						className="uppercase-header-item"
+					/>
 					<Menu.Item
-					name='upcomingEvents'
-					active={activeItem === 'upcomingEvents'}
-					onClick={this.handleItemClick}
-					className="uppercase-header-item"
-					>
-					Upcoming Events
-					</Menu.Item>
+						name="panier"
+						as={Link}
+						to="/cart"
+						active={activeItem === 'cart'}
+						onClick={this.handleItemClick}
+						className="uppercase-header-item"
+					/>
+					<Menu.Item
+						name="paiement"
+						as={Link}
+						to="/payment"
+						active={activeItem === 'payment'}
+						onClick={this.handleItemClick}
+						className="uppercase-header-item"
+					/>
 				</Menu.Menu>
-				<Menu.Menu position='right'>
-					<Menu.Item name='contact' active={activeItem === 'contact'} onClick={this.handleItemClick}
-						className="uppercase-header-item" 
+				<Menu.Menu position="right">
+					<Menu.Item
+						name="contact"
+						active={activeItem === 'contact'}
+						onClick={this.handleItemClick}
+						className="uppercase-header-item"
+					/>
+					<Menu.Item
+						name="à propos"
+						active={activeItem === 'about'}
+						onClick={this.handleItemClick}
+						className="uppercase-header-item"
 					/>
 				</Menu.Menu>
 			</Menu>
-		)
-		
+		);
 	}
 }
-
 
 export default Header;

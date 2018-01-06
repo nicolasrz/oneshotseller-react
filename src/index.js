@@ -1,24 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './w3.css';
+import './oneshotseller.css';
 import registerServiceWorker from './registerServiceWorker';
 import ArticleList from './components/ArticleList';
-import Payments from './components/Payment';
+import HomePage from './components/HomePage';
+import Payment from './components/Payment';
 import Cart from './components/Cart';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const Root = () => {
-  return (
-    <Router>
-    	<Switch>
-				<Route exact path="/" component={ArticleList} />
-				<Route path="/payment" component={Payments} />
+	return (
+		<Router>
+			<Switch>
+				<Route exact path="/" component={HomePage} />
+				<Route path="/articles" component={ArticleList} />
 				<Route path="/cart" component={Cart} />
-      	</Switch>
-    </Router>
-  );
+				<Route path="/payment" component={Payment} />
+				<Route path="/contact" component={HomePage} />
+				<Route path="/apropos" component={HomePage} />
+			</Switch>
+		</Router>
+	);
 };
 
-ReactDOM.render(<Root/>, document.getElementById("root"));
+ReactDOM.render(<Root />, document.getElementById('root'));
 
 registerServiceWorker();
