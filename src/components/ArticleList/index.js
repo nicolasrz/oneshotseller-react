@@ -9,9 +9,12 @@ class ArticleList extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			articles: []
+			articles: [],
+			articlesInCart : [],
+			nbArticlesInCart: 0
 		};
 		this.renderArticle = this.renderArticle.bind(this);
+		this.handleAddtoCart = this.handleAddtoCart.bind(this);
 	}
 
 	componentWillMount() {
@@ -20,18 +23,28 @@ class ArticleList extends PureComponent {
 		});
 	}
 
+	handleAddtoCart(id){
+		let articlesInCart = this.state.articlesInCart;
+		articlesInCart.push(id);
+		this.setState({articlesInCart, nbArticlesInCart: articlesInCart.length});
+	}
+
 	renderArticle() {
 		const articles = this.state.articles;
 		return (
 			<Card.Group itemsPerRow={4}>
 				{Object.keys(articles).map((key) => {
-					return <Article article={articles[key]} key={key} />;
+					return <Article article={articles[key]} key={key} handleAddtoCart={this.handleAddtoCart}/>;
 				})}
 			</Card.Group>
 		);
 	}
 	render() {
-		return <Page>{this.state.articles ? this.renderArticle() : ''}</Page>;
+		return( 
+			<Page nbArticlesInCart={this.state.nbArticlesInCart} >
+				{this.state.articles ? this.renderArticle() : ''}
+			</Page>
+		);
 	}
 }
 

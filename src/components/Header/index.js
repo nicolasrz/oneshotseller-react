@@ -5,8 +5,9 @@ import './style.css';
 class Header extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {activeItem: '', nbArticlesInCart: 0};
 	}
+
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -40,7 +41,8 @@ class Header extends PureComponent {
 						onClick={this.handleItemClick}
 						className="uppercase-header-item"
 					>
-					{/* Panier<span className='nb-in-cart'>0</span> */}
+					
+					 Panier<span className='nb-in-cart'>{this.props.nbArticlesInCart}</span> 
 					</Menu.Item>
 					<Menu.Item
 						name="livraison"
