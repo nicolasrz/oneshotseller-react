@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './style.css';
 class Header extends PureComponent {
@@ -39,17 +39,22 @@ class Header extends PureComponent {
 						active={activeItem === 'cart'}
 						onClick={this.handleItemClick}
 						className="uppercase-header-item"
-					/>
+					>
+					{/* Panier<span className='nb-in-cart'>0</span> */}
+					</Menu.Item>
 					<Menu.Item
-						name="paiement"
+						name="livraison"
 						as={Link}
-						to="/payment"
-						active={activeItem === 'payment'}
+						to="/delivery"
+						active={activeItem === 'delivery'}
 						onClick={this.handleItemClick}
 						className="uppercase-header-item"
 					/>
 				</Menu.Menu>
 				<Menu.Menu position="right">
+					<Menu.Item>
+						<Icon name='cart' />
+					</Menu.Item>
 					<Menu.Item
 						name="contact"
 						active={activeItem === 'contact'}

@@ -17,3 +17,19 @@
 {
 	text-transform: uppercase !important;
 }
+
+.nb-in-cart
+{
+	margin-left: 3px;
+	margin-top:30px;
+	text-align: center;
+	width: 13px;
+	height: 13px;
+	font-size: x-small; 
+	color:white; 
+	background-color:#3F3F3F !important;
+	font-family: Arial, Helvetica, sans-serif;
+	border: 1px solid black !important;
+	border-radius: 50% !important ;
+	padding-top: 1px !important; 
+}

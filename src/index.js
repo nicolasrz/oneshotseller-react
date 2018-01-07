@@ -6,7 +6,7 @@ import './oneshotseller.css';
 import registerServiceWorker from './registerServiceWorker';
 import ArticleList from './components/ArticleList';
 import HomePage from './components/HomePage';
-import Payment from './components/Payment';
+import Delivery from './components/Delivery';
 import Cart from './components/Cart';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ const Root = () => {
 				<Route exact path="/" component={HomePage} />
 				<Route path="/articles" component={ArticleList} />
 				<Route path="/cart" component={Cart} />
-				<Route path="/payment" component={Payment} />
+				<Route path="/delivery" component={Delivery} />
 				<Route path="/contact" component={HomePage} />
 				<Route path="/apropos" component={HomePage} />
 			</Switch>
