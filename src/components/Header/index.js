@@ -5,9 +5,8 @@ import './style.css';
 class Header extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {activeItem: '', nbArticlesInCart: 0};
+		this.state = { activeItem: '', nbArticlesInCart: 0 };
 	}
-
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -40,10 +39,7 @@ class Header extends PureComponent {
 						active={activeItem === 'cart'}
 						onClick={this.handleItemClick}
 						className="uppercase-header-item"
-					>
-					
-					 Panier<span className='nb-in-cart'>{this.props.nbArticlesInCart}</span> 
-					</Menu.Item>
+					/>
 					<Menu.Item
 						name="livraison"
 						as={Link}
@@ -54,9 +50,6 @@ class Header extends PureComponent {
 					/>
 				</Menu.Menu>
 				<Menu.Menu position="right">
-					<Menu.Item>
-						<Icon name='cart' />
-					</Menu.Item>
 					<Menu.Item
 						name="contact"
 						active={activeItem === 'contact'}
