@@ -23,7 +23,7 @@ class ArticleList extends PureComponent {
 	}
 
 	handleAddtoCart(id) {
-		Helper.setItem(id);
+		Helper.addItem(id);
 	}
 
 	renderArticle() {

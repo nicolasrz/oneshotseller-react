@@ -10,24 +10,36 @@ export default class Cart extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			articles: []
+			articles: [],
+			counter: 0
 		};
 		this.handleClickDelete = this.handleClickDelete.bind(this);
 	}
 	componentWillMount() {
-		const articles = Helper.getCart();
+		const elems = Helper.getCart();
 		const self = this;
-		axios.post(`${constant.api}/article/ids`, articles).then((response) => {
-			self.setState({ articles: response.data });
-		});
+		if (elems.length > 0) {
+			axios.post(`${constant.api}/article/ids`, elems).then((response) => {
+				self.setState({ articles: response.data });
+			});
+		}
 	}
 
-	handleClickDelete(id) {
+	handleClickDelete(index) {
 		const { articles } = this.state;
-		console.log(id);
+		let newArticles = [];
+		for (let i = 0; i < articles.length; i++) {
+			if (articles[i].index !== index) {
+				newArticles.push(articles[i]);
+			}
+		}
+		Helper.updateCart(newArticles);
+		this.setState({ articles: newArticles });
+		console.log(this.state.articles);
 	}
 
 	render() {
+		console.log('render');
 		return (
 			<Page>
 				<Item.Group>
@@ -45,7 +57,7 @@ export default class Cart extends PureComponent {
 										<p>{article.description}</p>
 									</Item.Description>
 									<Item.Meta>
-										<LinkDelete id={article.id} handleClickDelete={this.handleClickDelete} />
+										<LinkDelete index={article.index} handleClickDelete={this.handleClickDelete} />
 									</Item.Meta>
 								</Item.Content>
 							</Item>
