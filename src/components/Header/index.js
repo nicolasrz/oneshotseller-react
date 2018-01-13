@@ -40,14 +40,6 @@ class Header extends PureComponent {
 						onClick={this.handleItemClick}
 						className="uppercase-header-item"
 					/>
-					<Menu.Item
-						name="livraison"
-						as={Link}
-						to="/delivery"
-						active={activeItem === 'delivery'}
-						onClick={this.handleItemClick}
-						className="uppercase-header-item"
-					/>
 				</Menu.Menu>
 				<Menu.Menu position="right">
 					<Menu.Item

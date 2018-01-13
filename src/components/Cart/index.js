@@ -1,17 +1,15 @@
 import React, { PureComponent } from 'react';
 import axios from 'axios';
 import { Image, Item, Icon } from 'semantic-ui-react';
-import Page from '../Page';
 import Helper from '../../utils/Helper';
 import LinkDelete from '../LinkDelete';
 import constant from '../../utils/constant.json';
-
+import './style.css';
 export default class Cart extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			articles: [],
-			counter: 0
+			articles: []
 		};
 		this.handleClickDelete = this.handleClickDelete.bind(this);
 	}
@@ -35,14 +33,12 @@ export default class Cart extends PureComponent {
 		}
 		Helper.updateCart(newArticles);
 		this.setState({ articles: newArticles });
-		console.log(this.state.articles);
 	}
 
 	render() {
 		console.log('render');
 		return (
-			<Page>
-				<Item.Group>
+				<Item.Group className='border'>
 					{Object.keys(this.state.articles).map((key) => {
 						const article = this.state.articles[key];
 						return (
@@ -64,7 +60,6 @@ export default class Cart extends PureComponent {
 						);
 					})}
 				</Item.Group>
-			</Page>
 		);
 	}
 }
