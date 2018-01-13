@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Header } from 'semantic-ui-react';
 import './style.css';
 export default class FormDelivery extends PureComponent {
 	constructor(props) {
@@ -111,7 +111,69 @@ export default class FormDelivery extends PureComponent {
 					defaultChecked={this.state.checked}
 					onChange={this.onChangeUseSameAdress}
 				/>
-				{this.state.checked ? <Button type="submit">Passer commande</Button> : ''}
+				{this.state.checked ? (
+					<Button type="submit">Passer commande</Button>
+				) : (
+					<div>
+						<Header size="small">Votre adresse de facturation</Header>
+
+						<Form.Group unstackable widths={2}>
+							<Form.Input
+								label="Prénom"
+								placeholder="Prénom"
+								value={this.state.d_firstname}
+								onChange={this.onChangeFirstname}
+								required
+							/>
+							<Form.Input
+								label="Nom"
+								placeholder="Nom"
+								value={this.state.d_lastname}
+								onChange={this.onChangeLastname}
+								required
+							/>
+						</Form.Group>
+						<Form.Group widths={2}>
+							<Form.Input
+								label="Numéro de voie"
+								placeholder="Numéro de voie"
+								value={this.state.d_number}
+								onChange={this.onChangeNumber}
+								required
+							/>
+						</Form.Group>
+						<Form.Input
+							label="Libellé de voie"
+							placeholder="Libellé de voie"
+							value={this.state.d_street}
+							onChange={this.onChangeStreet}
+							required
+						/>
+						<Form.Input
+							label="Complément d'adresse"
+							placeholder="Complément d'adresse"
+							value={this.state.d_complement}
+							onChange={this.onChangeComplement}
+						/>
+						<Form.Group widths={2}>
+							<Form.Input
+								label="Code postal"
+								placeholder="Code postal"
+								value={this.state.d_zipcode}
+								onChange={this.onChangeZipcode}
+								required
+							/>
+							<Form.Input
+								label="Ville"
+								placeholder="Ville"
+								value={this.state.d_city}
+								onChange={this.onChangeCity}
+								required
+							/>
+						</Form.Group>
+						<Button type="submit">Passer commande</Button>
+					</div>
+				)}
 			</Form>
 		);
 	}
