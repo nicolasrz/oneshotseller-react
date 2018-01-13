@@ -16,9 +16,11 @@ export default class Cart extends PureComponent {
 	componentWillMount() {
 		const elems = Helper.getCart();
 		const self = this;
+
 		if (elems.length > 0) {
 			axios.post(`${constant.api}/article/ids`, elems).then((response) => {
 				self.setState({ articles: response.data });
+				this.setTotalPrice(response.data);
 			});
 		}
 	}
@@ -33,33 +35,42 @@ export default class Cart extends PureComponent {
 		}
 		Helper.updateCart(newArticles);
 		this.setState({ articles: newArticles });
+		this.setTotalPrice(newArticles);
+	}
+
+	setTotalPrice(articles) {
+		let totalPrice = 0;
+		for (let i in articles) {
+			totalPrice += articles[i].price;
+		}
+		totalPrice = parseFloat(totalPrice).toFixed(2);
+		this.props.setTotalPrice(totalPrice);
 	}
 
 	render() {
-		console.log('render');
 		return (
-				<Item.Group className='border'>
-					{Object.keys(this.state.articles).map((key) => {
-						const article = this.state.articles[key];
-						return (
-							<Item key={key}>
-								<Item.Image size="small" src={article.image} />
-								<Item.Content>
-									<Item.Header as="a">{article.name}</Item.Header>
-									<Item.Meta>
-										<span className="price">{article.price} €</span>
-									</Item.Meta>
-									<Item.Description>
-										<p>{article.description}</p>
-									</Item.Description>
-									<Item.Meta>
-										<LinkDelete index={article.index} handleClickDelete={this.handleClickDelete} />
-									</Item.Meta>
-								</Item.Content>
-							</Item>
-						);
-					})}
-				</Item.Group>
+			<Item.Group className="border">
+				{Object.keys(this.state.articles).map((key) => {
+					const article = this.state.articles[key];
+					return (
+						<Item key={key}>
+							<Item.Image size="small" src={article.image} />
+							<Item.Content>
+								<Item.Header as="a">{article.name}</Item.Header>
+								<Item.Meta>
+									<span className="price">{article.price} €</span>
+								</Item.Meta>
+								<Item.Description>
+									<p>{article.description}</p>
+								</Item.Description>
+								<Item.Meta>
+									<LinkDelete index={article.index} handleClickDelete={this.handleClickDelete} />
+								</Item.Meta>
+							</Item.Content>
+						</Item>
+					);
+				})}
+			</Item.Group>
 		);
 	}
 }

@@ -16,7 +16,6 @@ const Root = () => {
 				<Route exact path="/" component={HomePage} />
 				<Route path="/articles" component={ArticleList} />
 				<Route path="/cart" component={PageCart} />
-				<Route path="/delivery" component={Delivery} />
 				<Route path="/contact" component={HomePage} />
 				<Route path="/apropos" component={HomePage} />
 			</Switch>
