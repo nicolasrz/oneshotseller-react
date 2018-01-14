@@ -21,6 +21,7 @@ export default class FormDelivery extends PureComponent {
 		this.onChangeCity = this.onChangeCity.bind(this);
 		this.onChangeZipcode = this.onChangeZipcode.bind(this);
 		this.onChangeCheck = this.onChangeCheck.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 
 	onChangeFirstname = (event, data) => {
@@ -48,11 +49,19 @@ export default class FormDelivery extends PureComponent {
 		this.props.onChangeCheck(data.checked);
 	}
 
+	onSubmit() {
+		this.props.onSubmit(this.getBill());
+	}
+
+	getBill() {
+		return 'test';
+	}
+
 	render() {
 		return (
 			<div>
-				<Header size="small">{this.props.title}</Header>
 				<Form className="border">
+					<Header size="small">{this.props.title}</Header>
 					<Form.Group unstackable widths={2}>
 						<Form.Input
 							label="Prénom"
@@ -117,12 +126,12 @@ export default class FormDelivery extends PureComponent {
 						''
 					)}
 
-					{(!this.props.checked && !this.props.showCheckBox) ||
+					{/* {(!this.props.checked && !this.props.showCheckBox) ||
 					(this.props.checked && this.props.showCheckBox) ? (
-						<Button>Passer commande</Button>
+						<Button onClick={this.onSubmit}>Passer commande</Button>
 					) : (
 						''
-					)}
+					)} */}
 				</Form>
 			</div>
 		);

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Card, Image, Button } from 'semantic-ui-react';
 import '../../oneshotseller.css';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
-
+import './style.css';
 class Article extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -19,7 +19,7 @@ class Article extends PureComponent {
 	render() {
 		const { article } = this.props;
 		return (
-			<Card link>
+			<Card link className="border">
 				<Image src={article.image} />
 				<Card.Content>
 					<Card.Header className="text-center w3-text-grey">{article.name}</Card.Header>

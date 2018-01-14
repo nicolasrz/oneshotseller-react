@@ -45,35 +45,35 @@ export default class Cart extends PureComponent {
 			totalPrice += articles[i].price;
 		}
 		totalPrice = parseFloat(totalPrice).toFixed(2);
-		this.setState({ totalPrice })
+		this.setState({ totalPrice });
 	}
 
 	render() {
 		return (
-			<div>
+			<div className="border">
 				<Header size="small">Votre panier - Total : {this.state.totalPrice} €</Header>
-			<Item.Group className="border">
-				{Object.keys(this.state.articles).map((key) => {
-					const article = this.state.articles[key];
-					return (
-						<Item key={key}>
-							<Item.Image size="small" src={article.image} />
-							<Item.Content>
-								<Item.Header as="a">{article.name}</Item.Header>
-								<Item.Meta>
-									<span className="price">{article.price} €</span>
-								</Item.Meta>
-								<Item.Description>
-									<p>{article.description}</p>
-								</Item.Description>
-								<Item.Meta>
-									<LinkDelete index={article.index} handleClickDelete={this.handleClickDelete} />
-								</Item.Meta>
-							</Item.Content>
-						</Item>
-					);
-				})}
-			</Item.Group>
+				<Item.Group>
+					{Object.keys(this.state.articles).map((key) => {
+						const article = this.state.articles[key];
+						return (
+							<Item key={key}>
+								<Item.Image size="small" src={article.image} />
+								<Item.Content>
+									<Item.Header as="a">{article.name}</Item.Header>
+									<Item.Meta>
+										<span className="price">{article.price} €</span>
+									</Item.Meta>
+									<Item.Description>
+										<p>{article.description}</p>
+									</Item.Description>
+									<Item.Meta>
+										<LinkDelete index={article.index} handleClickDelete={this.handleClickDelete} />
+									</Item.Meta>
+								</Item.Content>
+							</Item>
+						);
+					})}
+				</Item.Group>
 			</div>
 		);
 	}
