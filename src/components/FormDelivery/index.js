@@ -21,7 +21,6 @@ export default class FormDelivery extends PureComponent {
 		this.onChangeCity = this.onChangeCity.bind(this);
 		this.onChangeZipcode = this.onChangeZipcode.bind(this);
 		this.onChangeCheck = this.onChangeCheck.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
 	}
 
 	onChangeFirstname = (event, data) => {
@@ -49,90 +48,77 @@ export default class FormDelivery extends PureComponent {
 		this.props.onChangeCheck(data.checked);
 	}
 
-	onSubmit() {
-		this.props.onSubmit(this.getBill());
-	}
-
 	getBill() {
-		return 'test';
+		return this.state;
 	}
 
 	render() {
 		return (
-			<div>
-				<Form className="border">
-					<Header size="small">{this.props.title}</Header>
-					<Form.Group unstackable widths={2}>
-						<Form.Input
-							label="Prénom"
-							placeholder="Prénom"
-							value={this.state.firstname}
-							onChange={this.onChangeFirstname}
-							required
-						/>
-						<Form.Input
-							label="Nom"
-							placeholder="Nom"
-							value={this.state.lastname}
-							onChange={this.onChangeLastname}
-							required
-						/>
-					</Form.Group>
-					<Form.Group widths={2}>
-						<Form.Input
-							label="Numéro de voie"
-							placeholder="Numéro de voie"
-							value={this.state.number}
-							onChange={this.onChangeNumber}
-							required
-						/>
-					</Form.Group>
+			<div className="border">
+				<Header size="small">{this.props.title}</Header>
+				<Form.Group unstackable widths={2}>
 					<Form.Input
-						label="Libellé de voie"
-						placeholder="Libellé de voie"
-						value={this.state.street}
-						onChange={this.onChangeStreet}
+						label="Prénom"
+						placeholder="Prénom"
+						value={this.state.firstname}
+						onChange={this.onChangeFirstname}
 						required
 					/>
 					<Form.Input
-						label="Complément d'adresse"
-						placeholder="Complément d'adresse"
-						value={this.state.complement}
-						onChange={this.onChangeComplement}
+						label="Nom"
+						placeholder="Nom"
+						value={this.state.lastname}
+						onChange={this.onChangeLastname}
+						required
 					/>
-					<Form.Group widths={2}>
-						<Form.Input
-							label="Code postal"
-							placeholder="Code postal"
-							value={this.state.zipcode}
-							onChange={this.onChangeZipcode}
-							required
-						/>
-						<Form.Input
-							label="Ville"
-							placeholder="Ville"
-							value={this.state.city}
-							onChange={this.onChangeCity}
-							required
-						/>
-					</Form.Group>
-					{this.props.showCheckBox ? (
-						<Form.Checkbox
-							label="Utiliser la même adresse pour la facturation"
-							defaultChecked={this.props.checked}
-							onChange={this.onChangeCheck}
-						/>
-					) : (
-						''
-					)}
-
-					{/* {(!this.props.checked && !this.props.showCheckBox) ||
-					(this.props.checked && this.props.showCheckBox) ? (
-						<Button onClick={this.onSubmit}>Passer commande</Button>
-					) : (
-						''
-					)} */}
-				</Form>
+				</Form.Group>
+				<Form.Group widths={2}>
+					<Form.Input
+						label="Numéro de voie"
+						placeholder="Numéro de voie"
+						value={this.state.number}
+						onChange={this.onChangeNumber}
+						required
+					/>
+				</Form.Group>
+				<Form.Input
+					label="Libellé de voie"
+					placeholder="Libellé de voie"
+					value={this.state.street}
+					onChange={this.onChangeStreet}
+					required
+				/>
+				<Form.Input
+					label="Complément d'adresse"
+					placeholder="Complément d'adresse"
+					value={this.state.complement}
+					onChange={this.onChangeComplement}
+				/>
+				<Form.Group widths={2}>
+					<Form.Input
+						label="Code postal"
+						placeholder="Code postal"
+						value={this.state.zipcode}
+						onChange={this.onChangeZipcode}
+						required
+					/>
+					<Form.Input
+						label="Ville"
+						placeholder="Ville"
+						value={this.state.city}
+						onChange={this.onChangeCity}
+						required
+					/>
+				</Form.Group>
+				{this.props.showCheckBox ? (
+					<Form.Checkbox
+						label="Utiliser la même adresse pour la facturation"
+						defaultChecked={this.props.checked}
+						onChange={this.onChangeCheck}
+					/>
+				) : (
+					''
+				)}
 			</div>
 		);
 	}

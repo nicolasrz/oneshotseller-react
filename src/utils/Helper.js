@@ -1,23 +1,18 @@
 export default class Helper {
 	static addItem(id) {
-		let cart = localStorage.getItem('cart');
-		if (cart === null) {
-			cart = [];
-		} else {
-			cart = JSON.parse(localStorage.getItem('cart'));
-		}
+		const cart = this.getCart();
 		cart.push({ index: cart.length, id });
 		localStorage.setItem('cart', JSON.stringify(cart));
 	}
 
 	static getCart() {
-		if (JSON.parse(localStorage.getItem('cart')) === null) {
+		if (localStorage.getItem('cart') === null || localStorage.getItem('cart') === '') {
 			return [];
 		}
 		return JSON.parse(localStorage.getItem('cart'));
 	}
 
-	static updateCart(newCart) {
-		localStorage.setItem('cart', JSON.stringify(newCart));
+	static updateCart(newElems) {
+		localStorage.setItem('cart', JSON.stringify(newElems));
 	}
 }

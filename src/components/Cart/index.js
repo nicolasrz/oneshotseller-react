@@ -34,9 +34,14 @@ export default class Cart extends PureComponent {
 				newArticles.push(articles[i]);
 			}
 		}
-		Helper.updateCart(newArticles);
+		let newElems = [];
+		for (let i = 0; i < newArticles.length; i++) {
+			newElems.push({ index: i, id: newArticles[i].id });
+		}
+		Helper.updateCart(newElems);
 		this.setState({ articles: newArticles });
 		this.setTotalPrice(newArticles);
+		Helper.getCart();
 	}
 
 	setTotalPrice(articles) {
@@ -46,6 +51,7 @@ export default class Cart extends PureComponent {
 		}
 		totalPrice = parseFloat(totalPrice).toFixed(2);
 		this.setState({ totalPrice });
+		this.props.setFullCart(this.state.articles, this.state.totalPrice);
 	}
 
 	render() {

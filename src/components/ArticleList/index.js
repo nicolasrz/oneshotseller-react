@@ -37,11 +37,7 @@ class ArticleList extends PureComponent {
 		);
 	}
 	render() {
-		return (
-			<Page nbArticlesInCart={this.state.nbArticlesInCart}>
-				{this.state.articles ? this.renderArticle() : ''}
-			</Page>
-		);
+		return <Page>{this.state.articles ? this.renderArticle() : ''}</Page>;
 	}
 }
 
