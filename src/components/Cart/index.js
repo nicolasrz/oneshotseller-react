@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import axios from 'axios';
-import { Image, Item, Icon } from 'semantic-ui-react';
+import { Item, Header } from 'semantic-ui-react';
 import Helper from '../../utils/Helper';
 import LinkDelete from '../LinkDelete';
 import constant from '../../utils/constant.json';
@@ -9,7 +9,8 @@ export default class Cart extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			articles: []
+			articles: [],
+			totalPrice: 0
 		};
 		this.handleClickDelete = this.handleClickDelete.bind(this);
 	}
@@ -44,11 +45,13 @@ export default class Cart extends PureComponent {
 			totalPrice += articles[i].price;
 		}
 		totalPrice = parseFloat(totalPrice).toFixed(2);
-		this.props.setTotalPrice(totalPrice);
+		this.setState({ totalPrice })
 	}
 
 	render() {
 		return (
+			<div>
+				<Header size="small">Votre panier - Total : {this.state.totalPrice} €</Header>
 			<Item.Group className="border">
 				{Object.keys(this.state.articles).map((key) => {
 					const article = this.state.articles[key];
@@ -71,6 +74,7 @@ export default class Cart extends PureComponent {
 					);
 				})}
 			</Item.Group>
+			</div>
 		);
 	}
 }

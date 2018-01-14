@@ -4,15 +4,15 @@ import './style.css';
 export default class FormDelivery extends PureComponent {
 	constructor(props) {
 		super(props);
+		console.log(props);
 		this.state = {
-			d_firstname: '',
-			d_lastname: '',
-			d_number: '',
-			d_street: '',
-			d_complement: '',
-			d_city: '',
-			d_zipcode: '',
-			checked: true
+			firstname: '',
+			lastname: '',
+			number: '',
+			street: '',
+			complement: '',
+			city: '',
+			zipcode: '',
 		};
 		this.onChangeFirstname = this.onChangeFirstname.bind(this);
 		this.onChangeLastname = this.onChangeLastname.bind(this);
@@ -21,49 +21,52 @@ export default class FormDelivery extends PureComponent {
 		this.onChangeComplement = this.onChangeComplement.bind(this);
 		this.onChangeCity = this.onChangeCity.bind(this);
 		this.onChangeZipcode = this.onChangeZipcode.bind(this);
-		this.onChangeUseSameAdress = this.onChangeUseSameAdress.bind(this);
+		this.onChangeCheck = this.onChangeCheck.bind(this);
 	}
 
 	onChangeFirstname = (event, data) => {
-		this.setState({ d_firstname: data.value });
+		this.setState({ firstname: data.value });
 	};
 	onChangeLastname = (event, data) => {
-		this.setState({ d_lastname: data.value });
+		this.setState({ lastname: data.value });
 	};
 	onChangeNumber = (event, data) => {
-		this.setState({ d_number: data.value });
+		this.setState({ number: data.value });
 	};
 	onChangeStreet = (event, data) => {
-		this.setState({ d_street: data.value });
+		this.setState({ street: data.value });
 	};
 	onChangeComplement = (event, data) => {
-		this.setState({ d_complement: data.value });
+		this.setState({ complement: data.value });
 	};
 	onChangeCity = (event, data) => {
-		this.setState({ d_city: data.value });
+		this.setState({ city: data.value });
 	};
 	onChangeZipcode = (event, data) => {
-		this.setState({ d_zipcode: data.value });
+		this.setState({ zipcode: data.value });
 	};
-	onChangeUseSameAdress(event, data) {
-		this.setState({ checked: data.checked });
+	onChangeCheck(event, data) {
+		this.props.onChangeCheck(data.value);
 	}
 
 	render() {
-		return (
+		console.log(this.props)
+
+		return (<div>
+			<Header size="small">{this.props.title}</Header>
 			<Form className="border">
 				<Form.Group unstackable widths={2}>
 					<Form.Input
 						label="Prénom"
 						placeholder="Prénom"
-						value={this.state.d_firstname}
+						value={this.state.firstname}
 						onChange={this.onChangeFirstname}
 						required
 					/>
 					<Form.Input
 						label="Nom"
 						placeholder="Nom"
-						value={this.state.d_lastname}
+						value={this.state.lastname}
 						onChange={this.onChangeLastname}
 						required
 					/>
@@ -72,7 +75,7 @@ export default class FormDelivery extends PureComponent {
 					<Form.Input
 						label="Numéro de voie"
 						placeholder="Numéro de voie"
-						value={this.state.d_number}
+						value={this.state.number}
 						onChange={this.onChangeNumber}
 						required
 					/>
@@ -80,101 +83,41 @@ export default class FormDelivery extends PureComponent {
 				<Form.Input
 					label="Libellé de voie"
 					placeholder="Libellé de voie"
-					value={this.state.d_street}
+					value={this.state.street}
 					onChange={this.onChangeStreet}
 					required
 				/>
 				<Form.Input
 					label="Complément d'adresse"
 					placeholder="Complément d'adresse"
-					value={this.state.d_complement}
+					value={this.state.complement}
 					onChange={this.onChangeComplement}
 				/>
 				<Form.Group widths={2}>
 					<Form.Input
 						label="Code postal"
 						placeholder="Code postal"
-						value={this.state.d_zipcode}
+						value={this.state.zipcode}
 						onChange={this.onChangeZipcode}
 						required
 					/>
 					<Form.Input
 						label="Ville"
 						placeholder="Ville"
-						value={this.state.d_city}
+						value={this.state.city}
 						onChange={this.onChangeCity}
 						required
 					/>
 				</Form.Group>
+				
 				<Form.Checkbox
 					label="Utiliser la même adresse pour la facturation"
-					defaultChecked={this.state.checked}
-					onChange={this.onChangeUseSameAdress}
-				/>
-				{this.state.checked ? (
-					<Button type="submit">Passer commande</Button>
-				) : (
-					<div>
-						<Header size="small">Votre adresse de facturation</Header>
-
-						<Form.Group unstackable widths={2}>
-							<Form.Input
-								label="Prénom"
-								placeholder="Prénom"
-								value={this.state.d_firstname}
-								onChange={this.onChangeFirstname}
-								required
-							/>
-							<Form.Input
-								label="Nom"
-								placeholder="Nom"
-								value={this.state.d_lastname}
-								onChange={this.onChangeLastname}
-								required
-							/>
-						</Form.Group>
-						<Form.Group widths={2}>
-							<Form.Input
-								label="Numéro de voie"
-								placeholder="Numéro de voie"
-								value={this.state.d_number}
-								onChange={this.onChangeNumber}
-								required
-							/>
-						</Form.Group>
-						<Form.Input
-							label="Libellé de voie"
-							placeholder="Libellé de voie"
-							value={this.state.d_street}
-							onChange={this.onChangeStreet}
-							required
-						/>
-						<Form.Input
-							label="Complément d'adresse"
-							placeholder="Complément d'adresse"
-							value={this.state.d_complement}
-							onChange={this.onChangeComplement}
-						/>
-						<Form.Group widths={2}>
-							<Form.Input
-								label="Code postal"
-								placeholder="Code postal"
-								value={this.state.d_zipcode}
-								onChange={this.onChangeZipcode}
-								required
-							/>
-							<Form.Input
-								label="Ville"
-								placeholder="Ville"
-								value={this.state.d_city}
-								onChange={this.onChangeCity}
-								required
-							/>
-						</Form.Group>
-						<Button type="submit">Passer commande</Button>
-					</div>
-				)}
+					defaultChecked={this.props.checked}
+					onChange={this.onChangeCheck}
+				/> 
+			<Button>Passer commande</Button>
 			</Form>
+			</div>	
 		);
 	}
 }

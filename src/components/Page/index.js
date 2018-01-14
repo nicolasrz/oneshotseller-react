@@ -6,7 +6,7 @@ class Page extends Component {
 	render() {
 		return (
 			<div>
-				<Header nbArticlesInCart={this.props.nbArticlesInCart}/>
+				<Header/>
 				<Container>{this.props.children}</Container>
 			</div>
 		);

@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './style.css';
 class Header extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = { activeItem: '', nbArticlesInCart: 0 };
+		this.state = { activeItem: ''};
 	}
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
