@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import axios from 'axios';
-import { Item, Header } from 'semantic-ui-react';
+import { Item } from 'semantic-ui-react';
 import Helper from '../../utils/Helper';
 import LinkDelete from '../LinkDelete';
 import constant from '../../utils/constant.json';
@@ -57,7 +57,7 @@ export default class Cart extends PureComponent {
 	render() {
 		return (
 			<div className="border">
-				<Header size="small">Votre panier - Total : {this.state.totalPrice} €</Header>
+				<h3>Votre panier - Total : {this.state.totalPrice} €</h3>
 				<Item.Group>
 					{Object.keys(this.state.articles).map((key) => {
 						const article = this.state.articles[key];

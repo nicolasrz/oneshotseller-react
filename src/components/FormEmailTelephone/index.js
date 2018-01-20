@@ -4,8 +4,8 @@ export default class FormEmailTelephone extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: '',
-			telephone: ''
+			telephone: '',
+			email: ''
 		};
 		this.onChangeEmail = this.onChangeEmail.bind(this);
 		this.onChangeTelephone = this.onChangeTelephone.bind(this);
@@ -23,6 +23,7 @@ export default class FormEmailTelephone extends PureComponent {
 	render() {
 		return (
 			<div className="border">
+				<h3>Contact</h3>
 				<Form.Input
 					type="email"
 					label="E-mail"

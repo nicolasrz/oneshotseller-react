@@ -6,8 +6,8 @@ class Page extends Component {
 	render() {
 		return (
 			<div>
-				<Header/>
-				<Container>{this.props.children}</Container>
+				<Header />
+				<Container className={this.props.isFluid ? 'fluid' : ''}>{this.props.children}</Container>
 			</div>
 		);
 	}

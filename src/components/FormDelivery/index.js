@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, Form, Header } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import './style.css';
 export default class FormDelivery extends PureComponent {
 	constructor(props) {
@@ -21,6 +21,7 @@ export default class FormDelivery extends PureComponent {
 		this.onChangeCity = this.onChangeCity.bind(this);
 		this.onChangeZipcode = this.onChangeZipcode.bind(this);
 		this.onChangeCheck = this.onChangeCheck.bind(this);
+		this.getFormData = this.getFormData.bind(this);
 	}
 
 	onChangeFirstname = (event, data) => {
@@ -48,14 +49,14 @@ export default class FormDelivery extends PureComponent {
 		this.props.onChangeCheck(data.checked);
 	}
 
-	getBill() {
+	getFormData() {
 		return this.state;
 	}
 
 	render() {
 		return (
 			<div className="border">
-				<Header size="small">{this.props.title}</Header>
+				<h3>{this.props.title}</h3>
 				<Form.Group unstackable widths={2}>
 					<Form.Input
 						label="Prénom"

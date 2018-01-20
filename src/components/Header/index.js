@@ -5,7 +5,7 @@ import './style.css';
 class Header extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = { activeItem: ''};
+		this.state = { activeItem: '' };
 	}
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -25,10 +25,10 @@ class Header extends PureComponent {
 					/>
 
 					<Menu.Item
-						name="articles"
+						name="boutique"
 						as={Link}
 						to="/articles"
-						active={activeItem === 'articles'}
+						active={activeItem === 'boutique'}
 						onClick={this.handleItemClick}
 						className="uppercase-header-item"
 					/>
