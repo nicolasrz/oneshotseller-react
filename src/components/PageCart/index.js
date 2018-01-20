@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Grid, Form, Button } from 'semantic-ui-react';
+import { Grid, Form, Button, Accordion, Icon } from 'semantic-ui-react';
 import constant from '../../utils/constant.json';
 import axios from 'axios';
 import Page from '../Page';
@@ -18,27 +18,36 @@ export default class PageCart extends PureComponent {
 			order: {},
 			checked: true,
 			telephone: '',
-			email: ''
+			email: '',
+			activeIndex: 0,
+			isDeliveryOk: false
 		};
 		this.onChangeCheck = this.onChangeCheck.bind(this);
 		this.onChangeEmail = this.onChangeEmail.bind(this);
 		this.onChangeTelephone = this.onChangeTelephone.bind(this);
-		this.onClickPayment = this.onClickPayment.bind(this);
+		this.onClickSend = this.onClickSend.bind(this);
 		this.setFullCart = this.setFullCart.bind(this);
-		this.onClickPayment = this.onClickPayment.bind(this);
 	}
+
+	handleClickAccordion = (e, titleProps) => {
+		const { index } = titleProps;
+		const { activeIndex } = this.state;
+		const newIndex = activeIndex === index ? -1 : index;
+
+		this.setState({ activeIndex: newIndex });
+	};
 
 	onChangeCheck(checked) {
-		this.setState({ checked });
+		this.setState({ checked, isDeliveryOk: false });
 	}
 	onChangeEmail(email) {
-		this.setState({ email });
+		this.setState({ email, isDeliveryOk: false });
 	}
 	onChangeTelephone(telephone) {
-		this.setState({ telephone });
+		this.setState({ telephone, isDeliveryOk: false });
 	}
 
-	onClickPayment() {
+	onClickSend() {
 		const { email, telephone, order, checked } = this.state;
 		const delivery = this.refs.formDelivery.getFormData();
 		let facturation = null;
@@ -60,10 +69,13 @@ export default class PageCart extends PureComponent {
 				.post(`${constant.api}/order/check`, order)
 				.then((response) => {
 					console.log(response);
+					this.setState({ activeIndex: 1, isDeliveryOk: true });
 				})
 				.catch((error) => {
 					console.log(error);
 				});
+		} else {
+			this.setState({ isDeliveryOk: false });
 		}
 	}
 
@@ -72,41 +84,68 @@ export default class PageCart extends PureComponent {
 	}
 
 	render() {
+		const { activeIndex } = this.state;
 		return (
 			<Page isFluid={false}>
-				<Grid>
+				<Grid stackable>
 					<Grid.Row>
 						<Grid.Column width={8}>
 							<Cart setFullCart={this.setFullCart} />
 						</Grid.Column>
 						<Grid.Column width={8}>
-							<Form className="border">
-								<FormEmailTelephone
-									onChangeEmail={this.onChangeEmail}
-									onChangeTelephone={this.onChangeTelephone}
-								/>
-								<FormDelivery
-									title={'Adresse de livraison'}
-									checked={this.state.checked}
-									showCheckBox={true}
-									showSubmitButton={true}
-									onChangeCheck={this.onChangeCheck}
-									ref="formDelivery"
-								/>
-								{!this.state.checked ? (
-									<FormDelivery
-										title={'Adresse de facturation'}
-										checked={this.state.checked}
-										showCheckBox={false}
-										ref="formFacturation"
-									/>
-								) : (
-									''
-								)}
-								<Button basic onClick={this.onClickPayment} className="go-to-payment">
-									Accéder au paiement
-								</Button>
-							</Form>
+							<Accordion styled>
+								<Accordion.Title
+									active={activeIndex === 0}
+									index={0}
+									onClick={this.handleClickAccordion}
+								>
+									<Icon name="dropdown" />
+									Adresse de livraison{' '}
+									{this.state.isDeliveryOk ? <Icon name="checkmark" color="green" /> : ''}
+								</Accordion.Title>
+								<Accordion.Content active={activeIndex === 0}>
+									<Form>
+										<FormEmailTelephone
+											onChangeEmail={this.onChangeEmail}
+											onChangeTelephone={this.onChangeTelephone}
+										/>
+										<FormDelivery
+											title={'Adresse de livraison'}
+											checked={this.state.checked}
+											showCheckBox={true}
+											showSubmitButton={true}
+											onChangeCheck={this.onChangeCheck}
+											ref="formDelivery"
+										/>
+										{!this.state.checked ? (
+											<FormDelivery
+												title={'Adresse de facturation'}
+												checked={this.state.checked}
+												showCheckBox={false}
+												ref="formFacturation"
+											/>
+										) : (
+											''
+										)}
+										<Button basic onClick={this.onClickSend} className="go-to-payment border">
+											Envoyer à cette adresse
+										</Button>
+									</Form>
+								</Accordion.Content>
+
+								<Accordion.Title
+									className={!this.state.isDeliveryOk ? 'disabled-title' : ''}
+									active={activeIndex === 1}
+									index={1}
+									onClick={this.handleClickAccordion}
+								>
+									<Icon name="dropdown" />
+									Validation de votre commande
+								</Accordion.Title>
+								<Accordion.Content active={activeIndex === 1}>
+									<p>Stripe !</p>
+								</Accordion.Content>
+							</Accordion>
 						</Grid.Column>
 					</Grid.Row>
 				</Grid>

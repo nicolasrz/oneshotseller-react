@@ -29,7 +29,7 @@ class ArticleList extends PureComponent {
 	renderArticle() {
 		const articles = this.state.articles;
 		return (
-			<Card.Group itemsPerRow={4}>
+			<Card.Group itemsPerRow={4} stackable>
 				{Object.keys(articles).map((key) => {
 					return <Article article={articles[key]} key={key} handleAddtoCart={this.handleAddtoCart} />;
 				})}
