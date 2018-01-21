@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Grid, Form, Button, Accordion, Icon } from 'semantic-ui-react';
+import { StripeProvider } from 'react-stripe-elements';
+import Checkout from '../Checkout';
 import constant from '../../utils/constant.json';
 import axios from 'axios';
 import Page from '../Page';
@@ -20,7 +22,8 @@ export default class PageCart extends PureComponent {
 			telephone: '',
 			email: '',
 			activeIndex: 0,
-			isDeliveryOk: false
+			isDeliveryOk: false,
+			publicKey: ''
 		};
 		this.onChangeCheck = this.onChangeCheck.bind(this);
 		this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -74,7 +77,7 @@ export default class PageCart extends PureComponent {
 				.post(`${constant.api}/order/check`, order)
 				.then((response) => {
 					console.log(response);
-					this.setState({ activeIndex: 1, isDeliveryOk: true });
+					this.setState({ activeIndex: 1, isDeliveryOk: true, publicKey: response.data.publicKey });
 				})
 				.catch((error) => {
 					console.log(error);
@@ -150,7 +153,9 @@ export default class PageCart extends PureComponent {
 									Validation de votre commande
 								</Accordion.Title>
 								<Accordion.Content active={activeIndex === 1}>
-									<p>Stripe !</p>
+									<StripeProvider apiKey={constant.publicKey}>
+										<Checkout />
+									</StripeProvider>
 								</Accordion.Content>
 							</Accordion>
 						</Grid.Column>
