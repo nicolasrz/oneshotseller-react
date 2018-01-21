@@ -25,6 +25,7 @@ export default class PageCart extends PureComponent {
 		this.onChangeCheck = this.onChangeCheck.bind(this);
 		this.onChangeEmail = this.onChangeEmail.bind(this);
 		this.onChangeTelephone = this.onChangeTelephone.bind(this);
+		this.setDeliveryIsOk = this.setDeliveryIsOk.bind(this);
 		this.onClickSend = this.onClickSend.bind(this);
 		this.setFullCart = this.setFullCart.bind(this);
 	}
@@ -38,13 +39,17 @@ export default class PageCart extends PureComponent {
 	};
 
 	onChangeCheck(checked) {
-		this.setState({ checked, isDeliveryOk: false });
+		this.setState({ checked });
 	}
 	onChangeEmail(email) {
 		this.setState({ email, isDeliveryOk: false });
 	}
 	onChangeTelephone(telephone) {
 		this.setState({ telephone, isDeliveryOk: false });
+	}
+
+	setDeliveryIsOk(isDeliveryOk) {
+		this.setState({ isDeliveryOk });
 	}
 
 	onClickSend() {
@@ -115,6 +120,7 @@ export default class PageCart extends PureComponent {
 											showCheckBox={true}
 											showSubmitButton={true}
 											onChangeCheck={this.onChangeCheck}
+											setDeliveryIsOk={this.setDeliveryIsOk}
 											ref="formDelivery"
 										/>
 										{!this.state.checked ? (
@@ -122,6 +128,7 @@ export default class PageCart extends PureComponent {
 												title={'Adresse de facturation'}
 												checked={this.state.checked}
 												showCheckBox={false}
+												setDeliveryIsOk={this.setDeliveryIsOk}
 												ref="formFacturation"
 											/>
 										) : (

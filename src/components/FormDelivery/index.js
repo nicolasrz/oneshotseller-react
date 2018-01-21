@@ -25,24 +25,31 @@ export default class FormDelivery extends PureComponent {
 	}
 
 	onChangeFirstname = (event, data) => {
+		this.props.setDeliveryIsOk(false);
 		this.setState({ firstname: data.value });
 	};
 	onChangeLastname = (event, data) => {
+		this.props.setDeliveryIsOk(false);
 		this.setState({ lastname: data.value });
 	};
 	onChangeNumber = (event, data) => {
+		this.props.setDeliveryIsOk(false);
 		this.setState({ number: data.value });
 	};
 	onChangeStreet = (event, data) => {
+		this.props.setDeliveryIsOk(false);
 		this.setState({ street: data.value });
 	};
 	onChangeComplement = (event, data) => {
+		this.props.setDeliveryIsOk(false);
 		this.setState({ complement: data.value });
 	};
 	onChangeCity = (event, data) => {
+		this.props.setDeliveryIsOk(false);
 		this.setState({ city: data.value });
 	};
 	onChangeZipcode = (event, data) => {
+		this.props.setDeliveryIsOk(false);
 		this.setState({ zipcode: data.value });
 	};
 	onChangeCheck(event, data) {
