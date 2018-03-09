@@ -7,6 +7,7 @@ class Page extends Component {
 		return (
 			<div>
 				<Header />
+				
 				<Container className={this.props.isFluid ? 'fluid' : ''}>{this.props.children}</Container>
 			</div>
 		);
