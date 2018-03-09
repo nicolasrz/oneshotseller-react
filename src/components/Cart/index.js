@@ -17,13 +17,9 @@ export default class Cart extends PureComponent {
 
   componentDidMount() {
     const elems = Helper.getCart();
-    let ids = [];
-    for (let i = 0; i < elems.length; i++) {
-      ids.push(elems[i].id);
-    }
 
     if (ids.length > 0) {
-      axios.post(`${constant.api}/article/ids`, ids).then(response => {
+      axios.post(`${constant.api}/article/ids`, elems).then(response => {
         this.setState({ articles: response.data });
         this.setTotalPrice(response.data);
       });
