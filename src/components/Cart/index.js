@@ -12,13 +12,9 @@ export default class Cart extends PureComponent {
       articles: [],
       totalPrice: 0
     };
-    this.handleClickDelete = this.handleClickDelete.bind(this);
-  }
 
-  componentDidMount() {
     const elems = Helper.getCart();
-
-    if (ids.length > 0) {
+    if (elems.length > 0) {
       axios.post(`${constant.api}/article/ids`, elems).then(response => {
         this.setState({ articles: response.data });
         this.setTotalPrice(response.data);
@@ -26,7 +22,7 @@ export default class Cart extends PureComponent {
     }
   }
 
-  handleClickDelete(index) {
+  handleClickDelete = index => {
     const { articles } = this.state;
     let newArticles = [];
     for (let i = 0; i < articles.length; i++) {
@@ -42,7 +38,7 @@ export default class Cart extends PureComponent {
     this.setState({ articles: newArticles });
     this.setTotalPrice(newArticles);
     Helper.getCart();
-  }
+  };
 
   setTotalPrice(articles) {
     let totalPrice = 0;
