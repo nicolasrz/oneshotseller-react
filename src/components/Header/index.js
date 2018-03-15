@@ -28,7 +28,7 @@ class Header extends PureComponent {
           <Menu.Item
             name="boutique"
             as={Link}
-            to="/articles"
+            to="/shop"
             active={activeItem === "boutique"}
             onClick={this.handleItemClick}
             className="uppercase-header-item"

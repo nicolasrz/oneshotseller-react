@@ -6,7 +6,7 @@ import Page from "../Page";
 import Article from "../Article";
 import Helper from "../../utils/Helper";
 
-class ArticleList extends PureComponent {
+class Shop extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,4 +42,4 @@ class ArticleList extends PureComponent {
   }
 }
 
-export default ArticleList;
+export default Shop;

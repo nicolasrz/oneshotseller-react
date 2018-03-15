@@ -1,5 +1,6 @@
 import React from "react";
 import { injectStripe, CardElement } from "react-stripe-elements";
+import { Button } from "semantic-ui-react";
 import axios from "axios";
 import constant from "../../utils/constant.json";
 
@@ -32,7 +33,14 @@ class CardForm extends React.Component {
     return (
       <form>
         <CardElement />
-        <button onClick={this.onSubmit}>Valider</button>
+        <Button
+          onClick={this.onSubmit}
+          color="green"
+          fluid
+          className="margin-top-5"
+        >
+          Payer
+        </Button>
       </form>
     );
   }

@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./index.css";
 import "./w3.css";
 import "./oneshotseller.css";
-import ArticleList from "./components/ArticleList";
+import Shop from "./components/Shop";
 import HomePage from "./components/HomePage";
 import PageCart from "./components/PageCart";
 
@@ -14,7 +14,7 @@ const Root = () => {
     <Router>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/articles" component={ArticleList} />
+        <Route path="/shop" component={Shop} />
         <Route path="/cart" component={PageCart} />
         <Route path="/contact" component={HomePage} />
         <Route path="/apropos" component={HomePage} />
