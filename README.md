@@ -30,7 +30,7 @@ npm start
 ```
 npm install serve -g
 npm run-script build
-serve -s -p 80
+serve -s build -p 80
 ```
 
 ## NB
