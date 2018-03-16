@@ -20,17 +20,34 @@ Have a Stripe account and api keys.
 ```
 
 ## Development
-
 ```
+git clone https://github.com/nruiz64/oneshotseller-react
+cd oneshotseller-react
 npm install
 npm start
 ```
 
 ## Deployment
 ```
-npm install serve -g
+git clone https://github.com/nruiz64/oneshotseller-react
+cd oneshotseller-react
+npm install http-server -g
+npm install
 npm run-script build
-serve -s build -p 80
+http-server -p 80
+```
+
+## Deployment with HTTPS
+```
+git clone https://github.com/nruiz64/oneshotseller-react
+cd oneshotseller-react
+npm install http-server -g
+npm install
+npm run-script build
+rm build/static/js *.map
+rm build/static/css *.map
+http-server -p 443 -S -C /etc/letsencrypt/live/mydomain.com/cert.pem -K /etc/letsencrypt/live/mydomain.com/privkey.pem
+
 ```
 
 ## NB
