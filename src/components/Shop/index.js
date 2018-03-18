@@ -3,9 +3,8 @@ import axios from 'axios';
 import { Card } from 'semantic-ui-react';
 import constant from '../../utils/constant.json';
 import Page from '../Page';
-// import Article from '../Article';
 import Article from '../../containers/article';
-import Helper from '../../utils/Helper';
+
 class Shop extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -16,10 +15,6 @@ class Shop extends PureComponent {
 			this.setState({ articles: response.data });
 		});
 	}
-
-	// handleAddtoCart = (id) => {
-	// 	Helper.addItem(id);
-	// };
 
 	renderArticle = () => {
 		const { articles } = this.state;

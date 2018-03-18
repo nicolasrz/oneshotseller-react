@@ -4,15 +4,15 @@ import { bindActionCreators } from 'redux';
 import { Grid, Form, Button, Accordion, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import { StripeProvider } from 'react-stripe-elements';
-import { addInformationOrder, addFacturationSameAsDelivery } from '../../actions/index';
+import { addInformationOrder } from '../actions/index';
 
-import Page from '../Page';
-import FormField from '../FormField';
-import Checkout from '../Checkout';
-import Cart from '../../containers/cart';
-import Helper from '../../utils/Helper';
-import constant from '../../utils/constant.json';
-import './style.css';
+import Page from '../components/Page';
+import FormField from '../components/FormField';
+import Checkout from '../components/Checkout';
+import Cart from './cart';
+import Helper from '../utils/Helper';
+import constant from '../utils/constant.json';
+import './pagecart.css';
 
 class PageCart extends PureComponent {
 	constructor(props) {
@@ -37,26 +37,28 @@ class PageCart extends PureComponent {
 	};
 
 	onChangeCheck = (e, { checked }) => {
-		this.checkFacturation();
-	};
-
-	checkFacturation = () => {
-		const { checked } = this.state;
-		if (checked) {
-			this.props.addFacturationSameAsDelivery(this.props.order);
-		}
+		this.setState({ checked });
 	};
 
 	onClickSend = () => {
-		const { order } = this.props;
-		this.checkFacturation();
-		if (Helper.checkEmail(order.email)) {
+		if (Helper.checkEmail(this.props.order.email)) {
+			let orderToCheck = Object.assign({}, this.props.order);
+			if (this.state.checked) {
+				orderToCheck['facturation'] = orderToCheck.delivery;
+			}
+			console.log(orderToCheck);
 			axios
-				.post(`${constant.api}/order/check`, order)
+				.post(`${constant.api}/order/check`, orderToCheck)
 				.then(({ data }) => {
+					const { isSuccess } = data;
+					if (isSuccess) {
+						this.setState({ activeIndex: 1 });
+					}
 					this.setState({
-						isSuccess: data.isSuccess
+						isSuccess
 					});
+
+					console.log(data);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -255,7 +257,7 @@ class PageCart extends PureComponent {
 								</Accordion.Content>
 
 								<Accordion.Title
-									className={this.state.isSuccess ? 'disabled-title' : ''}
+									className={activeIndex === 1 ? 'disabled-title' : ''}
 									active={activeIndex === 1}
 									index={1}
 									onClick={this.handleClickAccordion}
@@ -263,7 +265,7 @@ class PageCart extends PureComponent {
 									<Icon name="dropdown" />
 									Validation de votre commande
 								</Accordion.Title>
-								<Accordion.Content active={this.state.isSuccess ? true : false}>
+								<Accordion.Content active={activeIndex === 1}>
 									<StripeProvider apiKey={constant.publicKey}>
 										<Checkout order={this.props.order} />
 									</StripeProvider>
@@ -283,10 +285,7 @@ const mapStateToProps = (state) => {
 };
 
 const matchDispatchToProps = (dispatch) => {
-	return bindActionCreators(
-		{ addInformationOrder: addInformationOrder, addFacturationSameAsDelivery: addFacturationSameAsDelivery },
-		dispatch
-	);
+	return bindActionCreators({ addInformationOrder: addInformationOrder }, dispatch);
 };
 
 export default connect(mapStateToProps, matchDispatchToProps)(PageCart);

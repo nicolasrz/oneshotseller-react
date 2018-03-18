@@ -2,10 +2,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Card, Image, Button } from 'semantic-ui-react';
-import axios from 'axios';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 import { addToCart } from '../actions/index';
-import { api } from '../utils/constant.json';
 import '../oneshotseller.css';
 
 class Article extends PureComponent {

@@ -10,7 +10,7 @@ import './w3.css';
 import './oneshotseller.css';
 import Shop from './components/Shop';
 import HomePage from './components/HomePage';
-import PageCart from './components/PageCart';
+import PageCart from './containers/page-cart';
 
 const store = createStore(allReducers);
 

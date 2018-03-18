@@ -19,6 +19,8 @@ export const deleteArticleFromCart = (order, index) => {
 			newOrder.articles.splice(i, 1);
 		}
 	}
+	const totalPrice = Helper.getTotalPrice(order['articles']);
+	newOrder.totalPrice = totalPrice;
 
 	return {
 		type: 'DELETE_ARTICLE_FROM_CART',
@@ -37,26 +39,5 @@ export const addInformationOrder = (order, value, parentStateName, stateName) =>
 	return {
 		type: 'ADD_INFORMATION_ORDER',
 		payload: newOrder
-	};
-};
-
-export const addFacturationSameAsDelivery = (order) => {
-	let newOrder = Object.assign({}, order);
-	const { delivery } = newOrder;
-	newOrder['facturation'] = delivery;
-	return {
-		type: 'ADD_FACTURATION_SAME_AS_DELIVERY',
-		payload: newOrder
-	};
-};
-
-export const activateItem = (headerItems, itemIdToActivate) => {
-	headerItems.map((item) => {
-		item.active = 'false';
-	});
-	headerItems[itemIdToActivate].active = 'true';
-	return {
-		type: 'ACTIVATE_ITEM',
-		payload: headerItems
 	};
 };

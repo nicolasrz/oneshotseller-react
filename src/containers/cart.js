@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Item } from 'semantic-ui-react';
 import { deleteArticleFromCart } from '../actions/index';
-import axios from 'axios';
 import LinkDelete from '../components/LinkDelete';
-import Helper from '../utils/Helper';
 
 class Cart extends PureComponent {
 	handleClickDelete = (index) => {
