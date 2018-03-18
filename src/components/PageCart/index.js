@@ -1,174 +1,292 @@
-import React, { PureComponent } from "react";
-import { Grid, Form, Button, Accordion, Icon } from "semantic-ui-react";
-import { StripeProvider } from "react-stripe-elements";
-import Checkout from "../Checkout";
-import constant from "../../utils/constant.json";
-import axios from "axios";
-import Page from "../Page";
-import Cart from "../Cart";
-import FormEmailTelephone from "../FormEmailTelephone";
-import FormDelivery from "../FormDelivery";
-import Helper from "../../utils/Helper";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Grid, Form, Button, Accordion, Icon } from 'semantic-ui-react';
+import axios from 'axios';
+import { StripeProvider } from 'react-stripe-elements';
+import { addInformationOrder, addFacturationSameAsDelivery } from '../../actions/index';
 
-export default class PageCart extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      articles: [],
-      totalPrice: 0,
-      order: {},
-      checked: true,
-      telephone: "",
-      email: "",
-      activeIndex: 0,
-      isDeliveryOk: false
-    };
-  }
+import Page from '../Page';
+import FormField from '../FormField';
+import Checkout from '../Checkout';
+import Cart from '../../containers/cart';
+import Helper from '../../utils/Helper';
+import constant from '../../utils/constant.json';
+import './style.css';
 
-  handleClickAccordion = (e, titleProps) => {
-    const { index } = titleProps;
-    const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
+class PageCart extends PureComponent {
+	constructor(props) {
+		super(props);
+		this.state = {
+			checked: true,
+			activeIndex: 0,
+			isSuccess: false
+		};
+	}
 
-    this.setState({ activeIndex: newIndex });
-  };
+	handleClickAccordion = (e, titleProps) => {
+		const { index } = titleProps;
+		const { activeIndex } = this.state;
+		const newIndex = activeIndex === index ? -1 : index;
 
-  onChangeCheck = checked => {
-    this.setState({ checked });
-  };
-  onChangeEmail = email => {
-    this.setState({ email, isDeliveryOk: false });
-  };
-  onChangeTelephone = telephone => {
-    this.setState({ telephone, isDeliveryOk: false });
-  };
+		this.setState({ activeIndex: newIndex });
+	};
 
-  setDeliveryIsOk = isDeliveryOk => {
-    this.setState({ isDeliveryOk });
-  };
+	onChangeInput = (value, parentStateName, stateName) => {
+		this.props.addInformationOrder(this.props.order, value, parentStateName, stateName);
+	};
 
-  onClickSend = () => {
-    const { email, telephone, order, checked } = this.state;
-    const delivery = this.refs.formDelivery.getFormData();
-    let facturation = null;
-    if (!checked) {
-      facturation = this.refs.formFacturation.getFormData();
-    } else {
-      facturation = delivery;
-    }
+	onChangeCheck = (e, { checked }) => {
+		this.checkFacturation();
+	};
 
-    order.telephone = telephone;
-    order.email = email;
-    order.totalPrice = this.state.totalPrice;
-    order.articles = this.state.articles;
-    order.delivery = delivery;
-    order.facturation = facturation;
+	checkFacturation = () => {
+		const { checked } = this.state;
+		if (checked) {
+			this.props.addFacturationSameAsDelivery(this.props.order);
+		}
+	};
 
-    if (
-      Helper.formIsCorrect(order, checked) &&
-      Helper.checkEmail(order.email)
-    ) {
-      axios
-        .post(`${constant.api}/order/check`, order)
-        .then(response => {
-          this.setState({
-            activeIndex: 1,
-            isDeliveryOk: true,
-            order
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    } else {
-      this.setState({ isDeliveryOk: false });
-    }
-  };
+	onClickSend = () => {
+		const { order } = this.props;
+		this.checkFacturation();
+		if (Helper.checkEmail(order.email)) {
+			axios
+				.post(`${constant.api}/order/check`, order)
+				.then(({ data }) => {
+					this.setState({
+						isSuccess: data.isSuccess
+					});
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		} else {
+			console.log('bad email');
+		}
+	};
 
-  setFullCart = (articles, totalPrice) => {
-    this.setState({ articles, totalPrice });
-  };
+	render() {
+		const { activeIndex } = this.state;
+		return (
+			<Page isFluid={true}>
+				<Grid className="margin-horizontal-5">
+					<Grid.Row>
+						<Grid.Column width={8}>
+							<Cart />
+						</Grid.Column>
+						<Grid.Column width={8}>
+							<Accordion styled fluid>
+								<Accordion.Title
+									active={activeIndex === 0}
+									index={0}
+									onClick={this.handleClickAccordion}
+								>
+									<Icon name="dropdown" />
+									Commande
+									{this.state.isSuccess ? <Icon name="checkmark" color="green" /> : ''}
+								</Accordion.Title>
+								<Accordion.Content active={activeIndex === 0}>
+									<Form>
+										<div className="border">
+											<h3>Adresse de livraison</h3>
+											<FormField
+												onChange={this.onChangeInput}
+												order={this.props.order}
+												label="E-mail"
+												type="email"
+												stateName="email"
+												required="true"
+											/>
+											<FormField
+												onChange={this.onChangeInput}
+												order={this.props.order}
+												label="Téléphone"
+												type="text"
+												stateName="phoneNumber"
+												required="true"
+											/>
+										</div>
+										<div className="border">
+											<FormField
+												onChange={this.onChangeInput}
+												order={this.props.order}
+												parentStateName="delivery"
+												label="Prénom"
+												type="text"
+												stateName="firstname"
+												required="true"
+											/>
+											<FormField
+												onChange={this.onChangeInput}
+												order={this.props.order}
+												parentStateName="delivery"
+												label="Nom"
+												type="text"
+												stateName="lastname"
+												required="true"
+											/>
+											<FormField
+												onChange={this.onChangeInput}
+												order={this.props.order}
+												parentStateName="delivery"
+												label="Numéro de voie"
+												type="text"
+												stateName="number"
+												required="true"
+											/>
+											<FormField
+												onChange={this.onChangeInput}
+												order={this.props.order}
+												parentStateName="delivery"
+												label="Libellé de voie"
+												type="text"
+												stateName="street"
+												required="true"
+											/>
+											<FormField
+												onChange={this.onChangeInput}
+												order={this.props.order}
+												parentStateName="delivery"
+												label="Complément d'adresse"
+												type="text"
+												stateName="complement"
+												required="false"
+											/>
+											<FormField
+												onChange={this.onChangeInput}
+												order={this.props.order}
+												parentStateName="delivery"
+												label="Code postal"
+												type="text"
+												stateName="zipcode"
+												required="true"
+											/>
+											<FormField
+												onChange={this.onChangeInput}
+												order={this.props.order}
+												parentStateName="delivery"
+												label="Ville"
+												type="text"
+												stateName="city"
+												required="true"
+											/>
+											<Form.Checkbox
+												label="Utiliser la même adresse pour la facturation"
+												defaultChecked={this.state.checked}
+												onChange={this.onChangeCheck}
+											/>
+										</div>
 
-  render() {
-    const { activeIndex } = this.state;
-    return (
-      <Page isFluid={true}>
-        <Grid className="margin-horizontal-5">
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Cart setFullCart={this.setFullCart} />
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <Accordion styled fluid>
-                <Accordion.Title
-                  active={activeIndex === 0}
-                  index={0}
-                  onClick={this.handleClickAccordion}
-                >
-                  <Icon name="dropdown" />
-                  Adresse de livraison
-                  {this.state.isDeliveryOk ? (
-                    <Icon name="checkmark" color="green" />
-                  ) : (
-                    ""
-                  )}
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 0}>
-                  <Form>
-                    <FormEmailTelephone
-                      onChangeEmail={this.onChangeEmail}
-                      onChangeTelephone={this.onChangeTelephone}
-                    />
-                    <FormDelivery
-                      title={"Adresse de livraison"}
-                      checked={this.state.checked}
-                      showCheckBox={true}
-                      showSubmitButton={true}
-                      onChangeCheck={this.onChangeCheck}
-                      setDeliveryIsOk={this.setDeliveryIsOk}
-                      ref="formDelivery"
-                    />
-                    {!this.state.checked ? (
-                      <FormDelivery
-                        title={"Adresse de facturation"}
-                        checked={this.state.checked}
-                        showCheckBox={false}
-                        setDeliveryIsOk={this.setDeliveryIsOk}
-                        ref="formFacturation"
-                      />
-                    ) : (
-                      ""
-                    )}
-                    <Button
-                      basic
-                      onClick={this.onClickSend}
-                      className="go-to-payment border"
-                    >
-                      Envoyer à cette adresse
-                    </Button>
-                  </Form>
-                </Accordion.Content>
+										{!this.state.checked ? (
+											<div className="border">
+												<h3>Adresse de facturation</h3>
+												<FormField
+													onChange={this.onChangeInput}
+													order={this.props.order}
+													parentStateName="facturation"
+													label="Prénom"
+													type="text"
+													stateName="firstname"
+													required="true"
+												/>
+												<FormField
+													onChange={this.onChangeInput}
+													order={this.props.order}
+													parentStateName="facturation"
+													label="Nom"
+													type="text"
+													stateName="lastname"
+													required="true"
+												/>
+												<FormField
+													onChange={this.onChangeInput}
+													order={this.props.order}
+													parentStateName="facturation"
+													label="Numéro de voie"
+													type="text"
+													stateName="number"
+													required="true"
+												/>
+												<FormField
+													onChange={this.onChangeInput}
+													order={this.props.order}
+													parentStateName="facturation"
+													label="Libellé de voie"
+													type="text"
+													stateName="street"
+													required="true"
+												/>
+												<FormField
+													onChange={this.onChangeInput}
+													order={this.props.order}
+													parentStateName="facturation"
+													label="Complément d'adresse"
+													type="text"
+													stateName="complement"
+													required="false"
+												/>
+												<FormField
+													onChange={this.onChangeInput}
+													order={this.props.order}
+													parentStateName="facturation"
+													label="Code postal"
+													type="text"
+													stateName="zipcode"
+													required="true"
+												/>
+												<FormField
+													onChange={this.onChangeInput}
+													order={this.props.order}
+													parentStateName="facturation"
+													label="Ville"
+													type="text"
+													stateName="city"
+													required="true"
+												/>
+											</div>
+										) : (
+											''
+										)}
+										<Button basic onClick={this.onClickSend} className="go-to-payment border">
+											Envoyer à cette adresse
+										</Button>
+									</Form>
+								</Accordion.Content>
 
-                <Accordion.Title
-                  className={!this.state.isDeliveryOk ? "disabled-title" : ""}
-                  active={activeIndex === 1}
-                  index={1}
-                  onClick={this.handleClickAccordion}
-                >
-                  <Icon name="dropdown" />
-                  Validation de votre commande
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 1}>
-                  <StripeProvider apiKey={constant.publicKey}>
-                    <Checkout order={this.state.order} />
-                  </StripeProvider>
-                </Accordion.Content>
-              </Accordion>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Page>
-    );
-  }
+								<Accordion.Title
+									className={this.state.isSuccess ? 'disabled-title' : ''}
+									active={activeIndex === 1}
+									index={1}
+									onClick={this.handleClickAccordion}
+								>
+									<Icon name="dropdown" />
+									Validation de votre commande
+								</Accordion.Title>
+								<Accordion.Content active={this.state.isSuccess ? true : false}>
+									<StripeProvider apiKey={constant.publicKey}>
+										<Checkout order={this.props.order} />
+									</StripeProvider>
+								</Accordion.Content>
+							</Accordion>
+						</Grid.Column>
+					</Grid.Row>
+				</Grid>
+			</Page>
+		);
+	}
 }
+const mapStateToProps = (state) => {
+	return {
+		order: state.order
+	};
+};
+
+const matchDispatchToProps = (dispatch) => {
+	return bindActionCreators(
+		{ addInformationOrder: addInformationOrder, addFacturationSameAsDelivery: addFacturationSameAsDelivery },
+		dispatch
+	);
+};
+
+export default connect(mapStateToProps, matchDispatchToProps)(PageCart);

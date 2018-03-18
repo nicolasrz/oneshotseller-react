@@ -1,15 +1,19 @@
 import React from 'react';
 import { injectStripe, CardElement } from 'react-stripe-elements';
+import { connect } from 'react-redux';
+
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
 import constant from '../../utils/constant.json';
 
 class CardForm extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 	onSubmit = (e) => {
 		e.preventDefault();
 		this.props.stripe.createToken().then(({ token }) => {
 			const { order } = this.props;
-			console.log(order);
 			const chargeRequestOrder = {
 				order: order,
 				chargeRequest: {

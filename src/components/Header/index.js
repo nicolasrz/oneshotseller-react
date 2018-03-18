@@ -43,8 +43,20 @@ class Header extends PureComponent {
 					/>
 				</Menu.Menu>
 				<Menu.Menu position="right">
-					<Menu.Item name="contact" active={activeItem === 'contact'} className="uppercase-header-item" />
-					<Menu.Item name="à propos" active={activeItem === 'about'} className="uppercase-header-item" />
+					<Menu.Item
+						as={Link}
+						to="/contact"
+						name="contact"
+						active={activeItem === 'contact'}
+						className="uppercase-header-item"
+					/>
+					<Menu.Item
+						as={Link}
+						to="/about"
+						name="à propos"
+						active={activeItem === 'about'}
+						className="uppercase-header-item"
+					/>
 				</Menu.Menu>
 			</Menu>
 		);
