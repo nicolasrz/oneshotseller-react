@@ -21,7 +21,7 @@ Have a Stripe account and api keys.
 
 ## Development
 ```
-git clone https://github.com/nruiz64/oneshotseller-react
+git clone https://github.com/nicolasrz/oneshotseller-react
 cd oneshotseller-react
 npm install
 npm start
@@ -29,7 +29,7 @@ npm start
 
 ## Deployment
 ```
-git clone https://github.com/nruiz64/oneshotseller-react
+git clone https://github.com/nicolasrz/oneshotseller-react
 cd oneshotseller-react
 npm install http-server -g
 npm install
@@ -39,7 +39,7 @@ http-server -p 80
 
 ## Deployment with HTTPS
 ```
-git clone https://github.com/nruiz64/oneshotseller-react
+git clone https://github.com/nicolasrz/oneshotseller-react
 cd oneshotseller-react
 npm install http-server -g
 npm install
